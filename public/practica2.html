@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<!-- Template by Quackit.com -->
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <title>Teoría de la Computación</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS: You can use this stylesheet to override any Bootstrap styles and/or apply your own styles -->
+    <link href="css/custom.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Logo and responsive toggle -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">
+                 <span class="glyphicon glyphicon-fire"></span> 
+                 Inicio
+             </a>
+         </div>
+         <!-- Navbar links -->
+         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active">
+                    <a href="#">Prácticas</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#">Contacto</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+<!-- Content -->
+<div class="container">
+
+    <!-- Heading -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Práctica 2
+            </h1>
+        </div>
+    </div>
+    <!-- /.row -->
+
+    <!-- Projects Row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <p>Retomar el programa de la práctica anterior para incluir las siguientes funcionalidades:
+                <ul>
+                    <li>Que permita seleccionar reglas para hacer derivaciones de cadenas del lenguaje.</li>
+                    <li>Que muestre las derivaciones.</li>
+                    <li>Que muestre las cadenas que se vayan generando.</li>
+                    <li>Que indique el tipo de gramática que corresponde.</li>
+                    <li>Que permita modificar reglas en cualquier momento.</li>
+                </ul></p>
+
+
+                <select class="form-control" id="selectGrammar" style="width:350px;  margin-right: 5px; margin-bottom: 5px" onchange="selectedGrammarChanged()">
+                </select><button class="btn btn-default" type="button"  onclick="createGrammar()">Crear</button>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <p>Ingresa las reglas de la grámatica</p>
+                        <div class="input-group">
+                            <input class="form-control" type="text" name="initial" pattern="[^\s]+"  id="generator">
+                            <span class="input-group-addon" id="basic-addon1">--></span>
+                            <input class="form-control" type="text" name="initial" pattern="[^\s]+" id="generated">
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div style="margin-top: 30px">
+                            <button class="btn btn-default" type="button" onclick="readData()">Añadir</button>
+                            <button class="btn btn-default" type="button" onclick="setInitial()">Σ</button>
+                            <button class="btn btn-default" type="button" onclick="setLambda()">λ</button>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+                
+                
+                
+                
+                <p id="typeOfGrammarString">Tipo de Gramática : Sin tipo</p>
+                <div class="row"> 
+
+                    <div class="col-sm-3">
+                        <div>Módulo de Reglas</div>
+
+                        <select class="form-control" id="listOfRules" style="margin-top: 20px; width:400px; height:250px; overflow: scroll;width: 100%;" multiple=""></select>
+
+                        <div>Opciones para las reglas
+
+                            <div><button class="btn btn-default" type="button" onclick="modifyRule()">Modificar</button> <button class="btn btn-default" type="button" onclick="deleteRule()">Eliminar</button></div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <button class="btn btn-default" type="button" style="margin-top: 40px;" onclick="derivateRule()">Añadir a Derivación</button>
+                        <p></p>
+                        <button class="btn btn-default" type="button" onclick="clearDerivation()">Limpiar Derivación</button>
+
+
+                    </div>
+
+
+                    <div class="col-sm-3">
+
+                        <div>Módulo de Derivación</div>
+
+                        <select class="form-control" id="listOfDerivations" style="margin-top: 20px; width:400px; height:250px; overflow: scroll;width:100%;" multiple=""></select> 
+                    </div>
+                    <div class= "col-sm-3">
+                        <div>Módulo de Cadenas Terminales</div>
+                        <select class="form-control" id="listOfFinalDerivations" style="margin-top: 20px;  height:250px; overflow: scroll;width: 100%;" multiple=""></select> 
+                    </div>
+                </div>
+            </div>
+            <footer>
+                <div class="copyright">
+                 <div class="container">
+                  <p>Copyright &copy; 2017</p>
+              </div>
+          </div>
+      </footer>
+
+      <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
+
+      <script src="js/practica_2.js"></script>
+
+      <!-- jQuery -->
+      <script src="js/jquery-1.11.3.min.js"></script>
+
+      <!-- Bootstrap Core JavaScript -->
+      <script src="js/bootstrap.min.js"></script>
+  </body>
+
+  </html>
+
+
+
+
