@@ -82,6 +82,217 @@ var typeOfGrammar= " ";
 
 loadFromDataBase();
 
+//practica final
+//DECLARACIÓN DE VARIABLES
+let alphabet ="abcdefghijklmnopqrstuvwxyz";
+alphabet = alphabet.toUpperCase();
+
+let first_column = [];
+let element = {symbol: "", i: 0 };
+let i;
+let beta;
+let alpha;
+let A;
+let psi;
+let phi;
+let w = "(x+x)"; //cadena de entrada
+
+//PRACTICA FINAL**************************************************************
+//FUNCIONES
+function isUpperCase(letter){
+  return letter == letter.toUpperCase();
+}
+
+function decomposeBeta(beta){
+  //En esta función obtenemos B = (phi)A(psi)
+  //A es sigma o el simbolo no terminal más a la izquierda
+  firstLetter=true;
+  phi = psi ="λ";
+
+  for(var i=0;i<beta.length;i++){
+    letter = beta[i];
+    if((letter == "Σ" || alphabet.includes(letter)) && firstLetter){
+      A = letter;
+      firstLetter = false;
+    }else if (firstLetter) {
+      if(phi == "λ"){
+        phi = "";
+      }
+      phi += letter;
+    }else {
+      if(psi == "λ"){
+        psi = "";
+      }
+      psi += letter;
+    }
+  }
+}
+
+function composeBeta(phi,alpha,psi){
+  beta = "";
+  phi = (phi == "λ")  ? "" : phi;
+  psi = (psi == "λ") ? "" : psi;
+  beta += phi + alpha + psi;
+}
+
+function includesTerminal(beta){
+  for(var i=0;i<beta.length;i++){
+    if(isUpperCase(beta[i])){
+      return true;
+    }
+  }
+  return false;
+}
+
+function isPrefix(phi, w){
+  return phi == w.substring(0,phi.length) || phi=="λ";
+}
+
+function getW(){
+  return document.getElementById("w").value;
+}
+
+function fillTableTD(){
+  $('#table-body').append('<tr>');
+  $('#table-body').append('<td>' + '' + '</td>');
+  $('#table-body').append('<td>' + '('+ element.symbol+ ',' + element.i + ')' + '</td>');
+  $('#table-body').append('<td>' + beta + '</td>');
+  $('#table-body').append('<td>' + i + '</td>');
+  $('#table-body').append('<td>' + A + '</td>');
+  $('#table-body').append('<td>' + phi + '</td>');
+  $('#table-body').append('<td>' + psi + '</td>');
+  $('#table-body').append('<td>' + j + '</td>');
+  $('#table-body').append('<td>' + alpha + '</td>');
+  $('#table-body').append('</tr>');
+}
+
+function topDown(){
+
+  w = getW();
+
+  var finished = false;
+  var actual_element;
+  var terminal;
+
+
+
+  //push  (sigma , 0)
+  element = {symbol: generator_list[0], i : -1};
+  first_column.push(element);
+  beta = element.symbol;
+  aux = 0;
+  //¿Pila vacía?
+  while(first_column.length>0 && !finished){
+    aux++;
+    console.log("vuelta " + aux);
+    //pop para obtener (beta, i)
+    actual_element = first_column.pop();
+    i = actual_element.i;
+    beta = actual_element.symbol;
+    terminal = true;
+    eux = 0;
+    if(aux >1){
+      fillTableTD();
+    }
+
+    // Bloque de Comparación
+    while(terminal && !finished){
+      console.log("beta " + beta);
+      eux++;
+      decomposeBeta(beta);
+      //Aqui ya se asignaron los valores de la descomposición
+      //a phi A psi de lo que es beta
+
+      //si phi es un prefijo de w
+
+      //Bloque de Expansión
+      if(isPrefix(phi, w)){
+        //Sea j el entero más pequeño mayor que i tal que la regla G es tal
+        //que alpha --> a
+        j=i+1;
+        gRuleFound = false;
+        
+        while(j<generator_list.length && !gRuleFound ){
+          eux++;
+          if(A == generator_list[j]){
+            gRuleFound=true;
+            alpha = generated_list[j];
+          }
+          j++;
+        }
+        
+        //j encontrado
+        if(gRuleFound){ 
+          //push(beta,j)
+          element = {symbol: beta, i: j-1 };
+          first_column.push(element);
+          //pon beta = phi a psi 
+          composeBeta(phi,alpha,psi);
+          
+
+          //¿beta contiene un no terminal?
+          terminal = includesTerminal(beta);
+          console.log(terminal + "eux: " +eux);
+          if(terminal){
+            i=0;
+          }
+        } else{
+          terminal = false;
+        }
+
+        if(beta == w){
+          finished = true;
+          console.log(beta);
+        }
+
+      } else{
+        terminal = false;
+      }
+      /*console.log("beta " + beta);
+      console.log("i " + i);
+      console.log("A " + A);
+      console.log("ϕ " + phi);
+      console.log("ψ " + psi);
+      console.log("j " + j);
+      console.log("alpha " + alpha);*/
+      fillTableTD();
+    }
+  }
+  if(beta == w){
+    $('#result').append('<strong>ÉXITO!</strong>');
+    console.log(beta);
+  }else{
+    $('#result').append('<strong> Algoritmo Fracasó</strong>');
+    console.log(beta);
+  }
+
+}
+
+function clearAll(){
+  let first_column = [];
+  let element = {symbol: "", i: 0 };
+  let i = '';
+  let beta = '';
+  let alpha = '';
+  let A = '';
+  let psi = '';
+  let phi = '';
+  let w = ''; //cadena de entrada
+  $('#table-body').empty();
+}
+
+al = 0;
+function topDownSelected(){
+  if(typeOfGrammar != 'Libre de Contexto'){
+    alert('La gramatica necesita ser libre de contexto para utilizar el algoritmo');
+  }else{
+    clearAll();
+    topDown();
+    al++;
+  }
+}
+//PRACTICA FINAL ***************************************************************
+
 
 function saveInDataBase(){
   var ref = database.ref('grammars')

@@ -70,7 +70,14 @@ function isPrefix(phi, w){
 	return phi == w.substring(0,phi.length) || phi=="λ";
 }
 
+function getW(){
+
+}
+
 function main(){
+
+	getW();
+
 	var finished = false;
 	var actual_element;
 	var terminal;

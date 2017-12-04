@@ -75,83 +75,117 @@
     <!-- Projects Row -->
     <div class="row">
         <div class="col-lg-12">
-                <select class="form-control" id="selectGrammar" style="width:350px;  margin-right: 5px; margin-bottom: 5px" onchange="selectedGrammarChanged()">
-                </select><button class="btn btn-default" type="button"  onclick="createGrammar()">Crear</button>
 
-                <div class="row">
-                    <div class="col-sm-4">
-                        <p>Ingresa las reglas de la grámatica</p>
-                        <div class="input-group">
-                            <input class="form-control" type="text" name="initial" pattern="[^\s]+"  id="generator">
-                            <span class="input-group-addon" id="basic-addon1">--></span>
-                            <input class="form-control" type="text" name="initial" pattern="[^\s]+" id="generated">
-                        </div>
 
+            <div class="row">
+                <div class="col-sm-4">
+                    <p>Selecciona una grámatica</p>
+                    <select class="form-control" id="selectGrammar" style="width:350px;  margin-right: 5px; margin-bottom: 5px" onchange="selectedGrammarChanged()">
+                    </select><button class="btn btn-default" type="button"  onclick="createGrammar()">Crear</button>
+                </div>
+                <div class="col-sm-4">
+                    <p>Ingresa las reglas de la grámatica</p>
+                    <div class="input-group">
+                        <input class="form-control" type="text" name="initial" pattern="[^\s]+"  id="generator">
+                        <span class="input-group-addon" id="basic-addon1">--></span>
+                        <input class="form-control" type="text" name="initial" pattern="[^\s]+" id="generated">
                     </div>
-
-                    <div class="col-sm-6">
-                        <div style="margin-top: 30px">
-                            <button class="btn btn-default" type="button" onclick="readData()">Añadir</button>
-                            <button class="btn btn-default" type="button" onclick="setInitial()">Σ</button>
-                            <button class="btn btn-default" type="button" onclick="setLambda()">λ</button>
-                        </div>
-
-                    </div>
-
 
                 </div>
 
-                
-                
-                
-                
-                <p id="typeOfGrammarString">Tipo de Gramática : Sin tipo</p>
-                <div class="row"> 
-
-                    <div class="col-sm-3">
-                        <div>Módulo de Reglas</div>
-
-                        <select class="form-control" id="listOfRules" style="margin-top: 20px; width:400px; height:250px; overflow: scroll;width: 100%;" multiple=""></select>
-
-                        <div>Opciones para las reglas
-
-                            <div><button class="btn btn-default" type="button" onclick="modifyRule()">Modificar</button> <button class="btn btn-default" type="button" onclick="deleteRule()">Eliminar</button></div>
-                        </div>
+                <div class="col-sm-4">
+                    <div style="margin-top: 30px">
+                        <button class="btn btn-default" type="button" onclick="readData()">Añadir</button>
+                        <button class="btn btn-default" type="button" onclick="setInitial()">Σ</button>
+                        <button class="btn btn-default" type="button" onclick="setLambda()">λ</button>
                     </div>
 
-                    <div class="col-sm-2">
-                        <button class="btn btn-default" type="button" style="margin-top: 40px;" onclick="derivateRule()">Aplicar Algoritmo Top-Down</button>
-                    </div>
-
-
-                    <div class="col-sm-6 offset-md-1">
-
-                        <div style="margin-left:20px;">Salida del Algoritmo</div>
-
-                        <select class="form-control" id="listOfDerivations" style="margin-top: 20px;height:250px;margin-left:20px; overflow: scroll;width:100%;" multiple=""></select> 
-                    </div>
                 </div>
+
+
             </div>
-            <footer>
-                <div class="copyright">
-                 <div class="container">
-                  <p>Copyright &copy; 2017</p>
-              </div>
-          </div>
-      </footer>
 
-      <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
 
-      <script src="js/final.js"></script>
 
-      <!-- jQuery -->
-      <script src="js/jquery-1.11.3.min.js"></script>
 
-      <!-- Bootstrap Core JavaScript -->
-      <script src="js/bootstrap.min.js"></script>
-  </body>
 
-  </html>
+            <p id="typeOfGrammarString">Tipo de Gramática : Sin tipo</p>
+            <div class="row"> 
+
+                <div class="col-sm-3">
+                    <div>Módulo de Reglas</div>
+
+                    <select class="form-control" id="listOfRules" style="margin-top: 20px; width:400px; height:250px; overflow: scroll;width: 100%;" multiple=""></select>
+
+                    <div>Opciones para las reglas
+
+                        <div><button class="btn btn-default" type="button" onclick="modifyRule()">Modificar</button> <button class="btn btn-default" type="button" onclick="deleteRule()">Eliminar</button></div>
+                    </div>
+                </div>
+
+                <div class="col-sm-2">
+                    <div class="row" style="margin-top: 40px;">
+                        <input type="text" name="w" id="w" class="form-control" value="(x+x)">
+                    </div>
+                    <div class="row">
+                        <button class="btn btn-default" type="button"  onclick="topDownSelected()" style="margin-top: 10px;">Aplicar Algoritmo Top-Down</button>
+                    </div>
+
+                    <div class="row" id='result'>
+                        <strong> Resultado: </strong>
+
+                        
+                    </div>
+                </div>
+
+
+                <div class="col-sm-6 offset-md-1">
+
+                    <div style="margin-left:20px;">Salida del Algoritmo</div>
+
+                    <div class="pre-scrollable" id="listOfDerivations" style="margin-top: 20px;height:250px;margin-left:20px; overflow: scroll;width:100%;">
+                        <div class="row">
+                            <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th></th>
+                                    <th>Pila</th>
+                                    <th>β</th>
+                                    <th>i</th>
+                                    <th>A</th>
+                                    <th>ϕ</th>
+                                    <th>ψ</th>
+                                    <th>j</th>
+                                    <th>α</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-body">
+
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="copyright">
+         <div class="container">
+          <p>Copyright &copy; 2017</p>
+      </div>
+  </div>
+</footer>
+
+<script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
+<!-- jQuery -->
+<script src="js/jquery-1.11.3.min.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="js/bootstrap.min.js"></script>
+<script src="js/practica_final.js"></script>
+</body>
+
+</html>
 
 
 
