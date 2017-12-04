@@ -17,7 +17,7 @@ let alpha;
 let A;
 let psi;
 let phi;
-let w = "(x+x)"; //cadena de entrada
+let w = "(x+x)))"; //cadena de entrada
 
 
 //FUNCIONES
