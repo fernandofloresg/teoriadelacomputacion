@@ -95,7 +95,7 @@ let alpha;
 let A;
 let psi;
 let phi;
-let w = "(x+x)"; //cadena de entrada
+let w = ""; //cadena de entrada
 
 //PRACTICA FINAL**************************************************************
 //FUNCIONES
@@ -135,7 +135,7 @@ function composeBeta(phi,alpha,psi){
   beta += phi + alpha + psi;
 }
 
-function includesTerminal(beta){
+function includesNoTerminal(beta){
   for(var i=0;i<beta.length;i++){
     if(isUpperCase(beta[i])){
       return true;
@@ -145,7 +145,7 @@ function includesTerminal(beta){
 }
 
 function isPrefix(phi, w){
-  return phi == w.substring(0,phi.length) || phi=="λ";
+  return phi === w.substring(0,phi.length) || phi==="λ" ;
 }
 
 function getW(){
@@ -167,7 +167,7 @@ function fillTableTD(){
 }
 
 function topDown(){
-
+  var iteration_limit = 20;
   w = getW();
 
   var finished = false;
@@ -182,9 +182,8 @@ function topDown(){
   beta = element.symbol;
   aux = 0;
   //¿Pila vacía?
-  while(first_column.length>0 && !finished){
+  while(first_column.length>0 && !finished && aux <iteration_limit){
     aux++;
-    console.log("vuelta " + aux);
     //pop para obtener (beta, i)
     actual_element = first_column.pop();
     i = actual_element.i;
@@ -196,8 +195,7 @@ function topDown(){
     }
 
     // Bloque de Comparación
-    while(terminal && !finished){
-      console.log("beta " + beta);
+    while(terminal && !finished && eux<iteration_limit){
       eux++;
       decomposeBeta(beta);
       //Aqui ya se asignaron los valores de la descomposición
@@ -231,8 +229,7 @@ function topDown(){
           
 
           //¿beta contiene un no terminal?
-          terminal = includesTerminal(beta);
-          console.log(terminal + "eux: " +eux);
+          terminal = includesNoTerminal(beta);
           if(terminal){
             i=0;
           }
@@ -242,28 +239,25 @@ function topDown(){
 
         if(beta == w){
           finished = true;
-          console.log(beta);
         }
 
       } else{
         terminal = false;
       }
-      /*console.log("beta " + beta);
+      /* console.log("beta " + beta);
       console.log("i " + i);
       console.log("A " + A);
       console.log("ϕ " + phi);
       console.log("ψ " + psi);
       console.log("j " + j);
-      console.log("alpha " + alpha);*/
+      console.log("alpha " + alpha); */
       fillTableTD();
     }
   }
   if(beta == w){
     $('#result').append('<strong>ÉXITO!</strong>');
-    console.log(beta);
   }else{
     $('#result').append('<strong> Algoritmo Fracasó</strong>');
-    console.log(beta);
   }
 
 }
@@ -279,6 +273,7 @@ function clearAll(){
   let phi = '';
   let w = ''; //cadena de entrada
   $('#table-body').empty();
+  $('#result').empty();
 }
 
 al = 0;

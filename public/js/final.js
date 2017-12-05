@@ -81,9 +81,6 @@ function main(){
 	var finished = false;
 	var actual_element;
 	var terminal;
-
-
-
 	//push  (sigma , 0)
 	element = {symbol: generator_list[0], i : -1};
 	first_column.push(element);
@@ -104,10 +101,6 @@ function main(){
 		while(terminal && eux < 20 && !finished){
 			eux++;
 			decomposeBeta(beta);
-			console.log("beta " + beta);
-			console.log("i " + i);
-			console.log("A " + A);
-			
 			//Aqui ya se asignaron los valores de la descomposición
 			//a phi A psi de lo que es beta
 
